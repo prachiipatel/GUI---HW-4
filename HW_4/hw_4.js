@@ -15,6 +15,7 @@ function priceFields() {
         container.appendChild(document.createTextNode("Price " + (i + 1) + ":  "));
         // Create an <input> element, set its type and name attributes
         var input = document.createElement("input");
+        input.id = "Price-Num-" + i;
         input.name = "priceNum" + i;
         input.setAttribute("value", "0");
         input.setAttribute("type", "number");
@@ -41,6 +42,7 @@ function mpgFields() {
         container.appendChild(document.createTextNode("Mpg " + (i + 1) + ":  "));
         // Create an <input> element, set its type and name attributes
         var input = document.createElement("input");
+        input.id = "Mpg-Num-" +i;
         input.name = "mpgNum" + i;
         input.setAttribute("value", "0");
         input.setAttribute("type", "number");
@@ -58,15 +60,52 @@ function addTable() {
     var heading = new Array();
     heading[0] = "Price/Fuel consumption";
     for (i = 1; i <= columNum; i++) {
-        heading[i] = "Price" + i;
+        //input.id = "Price-Num-" + i;
+        var pID = "Price-Num-" + (i-1);
+        var price_value = document.getElementById(pID).value;
+        //var pNum = "priceNum" + i;
+        heading[heading.length] = price_value;
+        //document.getElementsByName("pNum").value;
     }
+    
+    
     
     var stock = new Array();
-    for(i = 0; i < rowNum; i++) {
+    for (i = 0; i < rowNum; i++) {
         stock[i] = new Array();
     }
+    //
+    for (i = 0; i < columNum; i++) {
+        //input.id = "Price-Num-" + i;
+        var mID = "Mpg-Num-" + (i);
+        var mpg_value = document.getElementById(mID).value;
+        //var pNum = "priceNum" + i;
+        stock[i][0] = mpg_value;
+        //document.getElementsByName("pNum").value;
+    }
+    
+    for (i = 1; i<= columNum; i++) {
+        for(j = 0; j < rowNum; j++) {
+            stock[j][i] = heading[i] * stock[j][0];
+        }
+    }
+    
+    /*
+    stock[0] = new Array("Cars", "88.625", "85.50", "85.81", "987");
+    stock[1] = new Array("Veggies", "88.625", "85.50", "85.81", "988");
+    stock[2] = new Array("Colors", "88.625", "85.50", "85.81", "989");
+    stock[3] = new Array("Numbers", "88.625", "85.50", "85.81", "990");
+    stock[4] = new Array("Requests", "88.625", "85.50", "85.81", "991");
+    */
     
     var table = "<table>";
+    //******
+    
+    table += "<tr>";
+    for (i = 0; i <= columNum; i++) {
+        table += "<th>" + heading[i] + "</td>";
+    }
+    table += "</tr>";
     
     for (i = 0; i < stock.length; i++) {
         table += "<tr>";
@@ -77,8 +116,7 @@ function addTable() {
     }
     table += "</table>";
     
-    /* I am still working on this, it took me a while to figure out how to display the table. I believe I can finish it if I would have little more time. */
-    
+    document.getElementById("displayTable").innerHTML = table;
 }
 
 
